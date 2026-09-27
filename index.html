@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Real-time weather dashboard using Open-Meteo REST API"
+    >
+
+    <title>The Weather Forecasting | Radhika Saini</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="top-header">
+
+        <div class="logo">
+            <div class="logo-main">
+                THE WEATHER
+            </div>
+
+            <div class="logo-sub">
+                FORECASTING
+            </div>
+        </div>
+
+        <div class="live-time" id="currentTime">
+            Loading...
+        </div>
+
+        <div class="github-icon">
+            <span>◉</span>
+        </div>
+
+    </header>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-section">
+
+        <form id="searchForm">
+
+            <div class="search-wrapper">
+
+                <input
+                    type="text"
+                    id="cityInput"
+                    placeholder="Search city..."
+                    value="Chandigarh"
+                    autocomplete="off"
+                >
+
+                <button
+                    type="submit"
+                    id="searchButton"
+                >
+                    Search
+                </button>
+
+                <button
+                    type="button"
+                    id="locationBtn"
+                    title="Use my location"
+                >
+                    ◎
+                </button>
+
+            </div>
+
+        </form>
+
+        <div
+            id="status"
+            class="status"
+        >
+            Loading weather...
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAIN DASHBOARD ================= -->
+
+    <main class="dashboard">
+
+
+        <!-- ========== LEFT COLUMN ========== -->
+
+        <div class="left-column">
+
+
+            <!-- CURRENT WEATHER -->
+
+            <section class="panel current-panel">
+
+                <div class="panel-title">
+                    CURRENT WEATHER
+                </div>
+
+                <div class="current-content">
+
+
+                    <div class="current-location">
+
+                        <h2 id="cityName">
+                            Chandigarh, IN
+                        </h2>
+
+                        <p id="dateTime">
+                            Loading...
+                        </p>
+
+                    </div>
+
+
+                    <div class="main-weather">
+
+                        <div
+                            id="weatherIcon"
+                            class="main-icon"
+                        >
+                            ☀️
+                        </div>
+
+                        <div>
+
+                            <div
+                                id="temperature"
+                                class="main-temperature"
+                            >
+                                --°C
+                            </div>
+
+                            <div
+                                id="weatherDescription"
+                                class="description"
+                            >
+                                Loading...
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- AIR CONDITIONS -->
+
+            <section class="panel air-panel">
+
+                <div class="panel-title">
+                    AIR CONDITIONS
+                </div>
+
+                <div class="air-grid">
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ◉ Real Feel
+                        </div>
+
+                        <div
+                            class="air-value"
+                            id="feelsLike"
+                        >
+                            --°C
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ≋ Wind
+                        </div>
+
+                        <div class="air-value">
+
+                            <span id="windSpeed">
+                                --
+                            </span>
+
+                            m/s
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ☁ Clouds
+                        </div>
+
+                        <div class="air-value">
+
+                            <span id="clouds">
+                                --
+                            </span>
+
+                            %
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ♧ Humidity
+                        </div>
+
+                        <div class="air-value">
+
+                            <span id="humidity">
+                                --
+                            </span>
+
+                            %
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ◉ Pressure
+                        </div>
+
+                        <div class="air-value">
+
+                            <span id="pressure">
+                                --
+                            </span>
+
+                            hPa
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ◌ Visibility
+                        </div>
+
+                        <div class="air-value">
+
+                            <span id="visibility">
+                                --
+                            </span>
+
+                            km
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="air-item">
+
+                        <div class="air-label">
+                            ➤ Direction
+                        </div>
+
+                        <div
+                            class="air-value"
+                            id="windDirection"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- TODAY FORECAST -->
+
+            <section class="panel today-panel">
+
+                <div class="panel-title">
+                    TODAY'S FORECAST
+                </div>
+
+                <div
+                    id="hourlyForecast"
+                    class="hourly-container"
+                >
+
+                    <!-- JavaScript inserts hourly cards -->
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- ========== RIGHT COLUMN ========== -->
+
+        <section class="panel weekly-panel">
+
+            <div class="panel-title">
+                WEEKLY FORECAST
+            </div>
+
+            <div
+                id="weeklyForecast"
+                class="weekly-container"
+            >
+
+                <!-- JavaScript inserts weekly forecast -->
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-left">
+
+            <span>
+                Weather data powered by Open-Meteo
+            </span>
+
+        </div>
+
+        <div class="footer-center">
+
+            <strong>
+                Frontend Developer — Radhika Saini
+            </strong>
+
+        </div>
+
+        <div class="footer-right">
+
+            <span>
+                Async JavaScript • REST API
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
